@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>树的主页</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+        }
+
+        body {
+            background: linear-gradient(135deg, #c3e6c8 0%, #a8d8ea 100%);
+            margin: 0;
+            overflow: hidden;
+            min-height: 100vh;
+            font-family: 'Microsoft YaHei', sans-serif;
+            cursor: pointer;
+        }
+
+        /* 飘动元素容器 */
+        #magic-forest {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        /* 动态元素样式 */
+        .magic-particle {
+            position: absolute;
+            font-size: 28px;
+            animation: float 15s linear infinite;
+            opacity: 0.8;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* 智能按钮 */
+        .portal-btn {
+            position: fixed;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 40px;
+            font-size: 24px;
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            border: 2px solid #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 0 25px rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .portal-btn:hover {
+            background: rgba(39, 174, 96, 0.9);
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="magic-forest"></div>
+    
+    <a href="https://www.douyin.com/user/..."
+       class="portal-btn"
+       target="_blank">
+        🌳 进入魔法森林 🌈
+    </a>
+
+    <script>
+        // 系统配置
+        const config = {
+            baseSpeed: 10,
+            boostSpeed: 4,
+            colors: ['#2ecc71', '#e74c3c', '#3498db', '#f1c40f', '#9b59b6'],
+            elements: ['树','💖','😊','🎉','🌳','✨','❤️','🌲','🍃','🌸']
+        }
+
+        // 创建动态元素
+        function createMagicParticle() {
+            const container = document.getElementById('magic-forest');
+            const particle = document.createElement('div');
+            
+            particle.className = 'magic-particle';
+            particle.textContent = config.elements[Math.floor(Math.random() * config.elements.length)];
+            particle.style.color = config.colors[Math.floor(Math.random() * config.colors.length)];
+            particle.style.left = Math.random() * 95 + 'vw';
+            particle.style.animationDuration = config.baseSpeed + Math.random() * 4 + 's';
+            particle.style.fontSize = (24 + Math.random() * 24) + 'px';
+
+            container.appendChild(particle);
+            setTimeout(() => particle.remove(), (config.baseSpeed + 2) * 1000);
+        }
+
+        // 智能加速系统
+        function activateBoost() {
+            document.querySelectorAll('.magic-particle').forEach(item => {
+                item.style.animationDuration = config.boostSpeed + 's';
+            });
+            setTimeout(() => {
+                document.querySelectorAll('.magic-particle').forEach(item => {
+                    item.style.animationDuration = config.baseSpeed + Math.random() * 4 + 's';
+                });
+            }, 2000);
+        }
+
+        // 事件系统
+        document.addEventListener('click', activateBoost);
+        document.addEventListener('touchstart', activateBoost);
+        setInterval(createMagicParticle, 600);
+
+        // 初始化渐变背景
+        function initBackground() {
+            const colors = [
+                ['#c3e6c8', '#a8d8ea'],
+                ['#d8f3dc', '#bde0fe'],
+                ['#e9f5db', '#c7f9cc']
+            ];
+            const randomGradient = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.background = 
+                `linear-gradient(135deg, ${randomGradient[0]} 0%, ${randomGradient[1]} 100%)`;
+        }
+        
+        initBackground();
+    </script>
+</body>
+</html>
